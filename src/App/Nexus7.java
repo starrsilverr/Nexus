@@ -1,7 +1,16 @@
 
 package App;
-import Modelo.Agente; //Aqui llame al paquete agente para que se pueda utilizar aqui, se tiene que hacer lo
-// mismo para todos los paquetes
+import Modelo.Agente;
+import Modelo.Caso;
+import Modelo.Evidencia;
+import Modelo.Mision;
+import Modelo.Sospechoso;
+import Util.Utilidades;
+import logica.Investigacion;
+import logica.Puntuacion;
+import logica.Sistema;
+
+/*Aqui llame a todos los paquetes, esto puede estar sujeto a cambios a medida que avancemos*/
 
 public class Nexus7 {
 
