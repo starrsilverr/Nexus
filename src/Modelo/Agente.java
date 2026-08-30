@@ -1,5 +1,6 @@
 
 package Modelo;
+import logica.Puntuacion;
 
 public class Agente {
     private String nombre,codigo, rango;
@@ -29,4 +30,11 @@ public class Agente {
     System.out.println("Estres : " + estres);
     System.out.println("Preciscion : " + precision);
 }
+    
+    public void Rangos(){
+        //Ciclo para saber los rango entorno a la puntiacion.
+        
+        
+    }
+    
 }
