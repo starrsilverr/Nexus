@@ -33,7 +33,8 @@ public class Agente {
     
     public void Rangos(){
         //Ciclo para saber los rango entorno a la puntiacion.
-        
+        //nose chavos
+        //ojito
     }
     
 }
