@@ -33,8 +33,7 @@ public class Agente {
     
     public void Rangos(){
         //Ciclo para saber los rango entorno a la puntiacion.
-        //holi susan
-        //prueba2
+        
     }
     
 }
