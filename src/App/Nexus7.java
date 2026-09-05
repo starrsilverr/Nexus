@@ -3,7 +3,7 @@ package App;
 import Modelo.Agente;
 import Modelo.Caso;
 import Modelo.Evidencia;
-import Modelo.Mision;
+import Modelo.MotorDecisiones;
 import Modelo.Sospechoso;
 import Util.Utilidades;
 import logica.Investigacion;
