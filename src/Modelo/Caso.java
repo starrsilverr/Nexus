@@ -215,5 +215,9 @@ public class Caso {
     public boolean isResuelto() {
         return resuelto;
     }
+
+    public Evidencia buscarEvidencia(int idEvidencia) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
 }
 
