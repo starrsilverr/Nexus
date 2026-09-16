@@ -1,41 +1,15 @@
 package Modelo;
 
-/**
- * Representa al jugador dentro de NEXUS 7.
- * Guarda su identidad, su progreso (EXP, rango, precisión)
- * y su estado (energía, estrés, reputación).
- *
- * Esta clase NO decide cuántos puntos vale cada acción del juego;
- * eso lo hace logica.Puntuacion. Agente solo guarda el estado
- * y sabe actualizarse a sí mismo cuando le llegan esos puntos.
- */
+
 public class Agente {
 
-    // =========================
-    // ENUM DE RANGOS
-    // =========================
-    // Representa los 6 rangos posibles según el reparto del proyecto.
-    // Usar un enum evita errores de escritura (comparar Strings a mano)
-    // y deja clarísimo cuáles son los únicos rangos válidos.
-    public enum Rango {
-        RECLUTA("RECLUTA"),
-        ANALISTA("ANALISTA"),
-        INVESTIGADOR("INVESTIGADOR"),
-        AGENTE("AGENTE"),
-        AGENTE_SENIOR("AGENTE SENIOR"),
-        JEFE_DE_OPERACIONES("JEFE DE OPERACIONES");
-
-        private final String nombreVisible;
-
-        Rango(String nombreVisible) {
-            this.nombreVisible = nombreVisible;
-        }
-
-        @Override
-        public String toString() {
-            return nombreVisible;
-        }
-    }
+    // LISTA DE RANGOS POSIBLES
+    // Van de menor a mayor en este orden. Se guardan en un arreglo para
+    // poder comparar cuál va antes que cuál (por ejemplo, para saber si
+    // un cambio de rango fue un ascenso o un descenso).
+    private static final String[] RANGOS = {
+        "RECLUTA", "ANALISTA", "INVESTIGADOR", "AGENTE", "AGENTE SENIOR", "JEFE DE OPERACIONES"
+    };
 
     // LÍMITES DEL SISTEMA
     private static final int MIN_ESTADO = 0;
@@ -44,7 +18,7 @@ public class Agente {
     // ATRIBUTOS
     private String nombre;
     private String codigo;
-    private Rango rango;
+    private String rango;
     private int EXP;
     private int rep;
     private double precision;
@@ -59,7 +33,7 @@ public class Agente {
     public Agente(String nombre, String codigo) {
         this.nombre = nombre;
         this.codigo = codigo;
-        this.rango = Rango.RECLUTA;
+        this.rango = "RECLUTA";
         this.EXP = 0;
         this.rep = 50; // reputación neutral al iniciar
         this.precision = 0.0;
@@ -70,7 +44,7 @@ public class Agente {
     }
 
     /**
-     * Constructor sobrecargado: se usa para reconstruir un agente que ya
+     * Constructor parametrizado: se usa para reconstruir un agente que ya
      * tenía progreso (por ejemplo, si en el futuro se carga una partida
      * guardada). Aquí sí se reciben todos los valores.
      */
@@ -109,29 +83,40 @@ public class Agente {
     // Revisa si con el XP actual corresponde un rango distinto al que tiene.
     // Si subió, muestra el cartel de ascenso.
     private void actualizarRango() {
-        Rango nuevoRango = calcularRangoPorXP(EXP);
-        if (nuevoRango != rango) {
-            Rango rangoAnterior = rango;
+        String nuevoRango = calcularRangoPorXP(EXP);
+        if (!nuevoRango.equals(rango)) {
+            String rangoAnterior = rango;
             rango = nuevoRango;
-            // Solo celebramos el ascenso, no el descenso (por si el XP baja de 0 hacia arriba)
-            if (nuevoRango.ordinal() > rangoAnterior.ordinal()) {
+            // Solo celebramos el ascenso, no el descenso (por si el XP baja)
+            if (posicionDelRango(nuevoRango) > posicionDelRango(rangoAnterior)) {
                 mostrarAscenso(rangoAnterior, nuevoRango);
             }
         }
     }
 
-    // Traduce una cantidad de XP al rango que le corresponde.
-    // Se usa tanto al crear un agente como al actualizarlo.
-    public static Rango calcularRangoPorXP(int xp) {
-        if (xp < 500)   return Rango.RECLUTA;
-        if (xp < 1000)  return Rango.ANALISTA;
-        if (xp < 1500)  return Rango.INVESTIGADOR;
-        if (xp < 2500)  return Rango.AGENTE;
-        if (xp < 4000)  return Rango.AGENTE_SENIOR;
-        return Rango.JEFE_DE_OPERACIONES;
+    // Busca en el arreglo RANGOS en qué posición está un rango, para poder
+    // comparar cuál va "más adelante" que otro (0 = RECLUTA, 5 = el más alto).
+    private int posicionDelRango(String nombreRango) {
+        for (int i = 0; i < RANGOS.length; i++) {
+            if (RANGOS[i].equals(nombreRango)) {
+                return i;
+            }
+        }
+        return 0;
     }
 
-    private void mostrarAscenso(Rango anterior, Rango nuevo) {
+    // Traduce una cantidad de XP al rango que le corresponde.
+    // Se usa tanto al crear un agente como al actualizarlo.
+    public static String calcularRangoPorXP(int xp) {
+        if (xp < 500)   return "RECLUTA";
+        if (xp < 1000)  return "ANALISTA";
+        if (xp < 1500)  return "INVESTIGADOR";
+        if (xp < 2500)  return "AGENTE";
+        if (xp < 4000)  return "AGENTE SENIOR";
+        return "JEFE DE OPERACIONES";
+    }
+
+    private void mostrarAscenso(String anterior, String nuevo) {
 
         System.out.println("        ASCENSO AUTORIZADO         ");
         System.out.println("  " + anterior + "  ->  " + nuevo);
@@ -215,11 +200,11 @@ public class Agente {
         System.out.println("Estres : " + estres);
         System.out.println("Precision : " + (int) precision + "%");
     }
-    
+
     // GETTERS
     public String getNombre() { return nombre; }
     public String getCodigo() { return codigo; }
-    public Rango getRango() { return rango; }
+    public String getRango() { return rango; }
     public int getEXP() { return EXP; }
     public int getRep() { return rep; }
     public double getPrecision() { return precision; }
