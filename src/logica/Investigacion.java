@@ -8,84 +8,85 @@ import Modelo.Sospechoso;
 public class Investigacion {
 
     private Caso caso;
-    private int puntosSospechoso1;
-    private int puntosSospechoso2;
     private int evidenciasAnalizadas;
 
     public Investigacion(Caso caso) {
-
         this.caso = caso;
-
-        // Se inicializan los puntos y el contador de evidencias en 0.
-        puntosSospechoso1 = 0;
-        puntosSospechoso2 = 0;
         evidenciasAnalizadas = 0;
     }
 
+    // Analiza una evidencia y la relaciona con un sospechoso
     public void analizarEvidencia(int idEvidencia, int idSospechoso) {
 
-        // Se busca la evidencia usando su ID.
         Evidencia evidencia = caso.buscarEvidencia(idEvidencia);
 
-        if (evidencia != null) {
+        if (evidencia == null) {
+            System.out.println("No se encontró esa evidencia.");
+            return;
+        }
 
-            // Se verifica que la evidencia todavía no haya sido analizada.
-            if (evidencia.isAnalizada() == false) {
+        // Verificamos si ya fue analizada
+        if (evidencia.isAnalizada()) {
+            System.out.println("Esta evidencia ya fue analizada.");
+            return;
+        }
 
-                evidencia.setAnalizada(true);
+        // Marcamos la evidencia como analizada
+        evidencia.setAnalizada(true);
 
-                // Se aumenta el contador de evidencias analizadas.
-                evidenciasAnalizadas++;
+        // Aumentamos el contador
+        evidenciasAnalizadas++;
 
-                if (evidencia.isRelevante()) {
+        System.out.println("\n=================================");
+        System.out.println("       ANÁLISIS COMPLETADO");
+        System.out.println("=================================");
 
-                    // Si pertenece al sospechoso 1, se suman los puntos de la evidencia.
-                    if (idSospechoso == 1) {
-                        puntosSospechoso1 = puntosSospechoso1 + evidencia.getValor();
-                    }
+        // Buscamos el sospechoso seleccionado
+        Sospechoso sospechoso = caso.buscarSospechoso(idSospechoso);
 
-                    // Si pertenece al sospechoso 2, se suman los puntos de la evidencia.
-                    if (idSospechoso == 2) {
-                        puntosSospechoso2 = puntosSospechoso2 + evidencia.getValor();
-                    }
-                }
+        if (sospechoso != null) {
+
+            System.out.println("Evidencia relacionada con: "
+                    + sospechoso.getNombre());
+
+            if (evidencia.isRelevante()) {
+                System.out.println("La evidencia parece ser RELEVANTE.");
+                System.out.println("Valor de la evidencia: "
+                        + evidencia.getValor());
+            } else {
+                System.out.println("La evidencia no parece ser relevante.");
             }
-        }
-    }
-
-    public void mostrarPuntos(int idSospechoso) {
-
-        // Muestra los puntos acumulados del sospechoso seleccionado.
-        if (idSospechoso == 1) {
-            System.out.println("Puntos del sospechoso 1: " + puntosSospechoso1);
-        }
-
-        if (idSospechoso == 2) {
-            System.out.println("Puntos del sospechoso 2: " + puntosSospechoso2);
-        }
-    }
-
-    public void mostrarEvidenciasAnalizadas() {
-
-        // Muestra cuántas evidencias han sido analizadas.
-        System.out.println("Evidencias analizadas: " + evidenciasAnalizadas);
-    }
-
-    public void mostrarSospechosoMasProbable() {
-
-        // Compara los puntos para determinar qué sospechoso tiene mayor probabilidad.
-        if (puntosSospechoso1 > puntosSospechoso2) {
-
-            System.out.println("El sospechoso 1 tiene más puntos.");
-
-        } else if (puntosSospechoso2 > puntosSospechoso1) {
-
-            System.out.println("El sospechoso 2 tiene más puntos.");
 
         } else {
-
-            // Si los puntos son iguales, se indica que hay un empate.
-            System.out.println("Los dos sospechosos tienen los mismos puntos.");
+            System.out.println("No se encontró el sospechoso.");
         }
+
+        System.out.println("Evidencias analizadas: "
+                + evidenciasAnalizadas + "/"
+                + caso.getEvidencias().size());
+    }
+
+    // Muestra el progreso de la investigación
+    public void mostrarProgreso() {
+
+        int total = caso.getEvidencias().size();
+
+        double porcentaje = 0;
+
+        if (total > 0) {
+            porcentaje = (evidenciasAnalizadas * 100.0) / total;
+        }
+
+        System.out.println("\n=================================");
+        System.out.println("     PROGRESO DE INVESTIGACIÓN");
+        System.out.println("=================================");
+        System.out.println("Evidencias analizadas: "
+                + evidenciasAnalizadas + "/" + total);
+        System.out.println("Porcentaje investigado: "
+                + (int) porcentaje + "%");
+    }
+
+    public int getEvidenciasAnalizadas() {
+        return evidenciasAnalizadas;
     }
 }

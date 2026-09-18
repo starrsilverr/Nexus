@@ -1,14 +1,10 @@
 
 package App;
-import Modelo.Agente;
-import Modelo.Caso;
-import Modelo.Evidencia;
-import Modelo.MotorDecisiones;
-import Modelo.Sospechoso;
+
+import logica.Sistema; 
 import Util.Utilidades;
-import logica.Investigacion;
-import logica.Puntuacion;
-import logica.Sistema;
+
+
 
 /*Aqui llame a todos los paquetes, esto puede estar sujeto a cambios a medida que avancemos*/
 
@@ -19,8 +15,11 @@ public class Nexus7 {
         int opcion;
         
         do {
-            System.out.println("        N E X U S  7              ");
-            System.out.println("     AGENCIA DE INTELIGENCIA       ");
+            System.out.println();
+            System.out.println("=================================");
+            System.out.println("          N E X U S 7");
+            System.out.println("=================================");
+            System.out.println("     AGENCIA DE INTELIGENCIA");
             System.out.println("   [1] Iniciar operacion           ");
             System.out.println("   [2] Ver expediente              ");
             System.out.println("   [3] Entrenamiento               ");

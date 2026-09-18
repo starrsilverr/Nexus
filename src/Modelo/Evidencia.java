@@ -47,18 +47,23 @@ public class Evidencia {
     }
 
     public boolean isAnalizada() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    return analizada;
     }
 
     public int getValor() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    return valor;
     }
 
     public boolean isRelevante() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    return relevante;
     }
 
     public void setAnalizada(boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    analizada = b;
+    }
+    
+    public int getId(){
+    return id;
     }
 }
+    
