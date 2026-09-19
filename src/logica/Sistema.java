@@ -19,7 +19,7 @@ public class Sistema {
     public Sistema() {
 
         System.out.println("=================================");
-        System.out.println("       CONFIGURACIÓN DE AGENTE");
+        System.out.println("    CONFIGURACIÓN DE AGENTE      ");
         System.out.println("=================================");
 
         String nombreAgente = Utilidades.leerTexto(
@@ -27,6 +27,16 @@ public class Sistema {
 );
 
         agente = new Agente(nombreAgente, "NX-001");
+
+        casos = new ArrayList<>();
+
+        casoDesbloqueado = 1;
+
+        cargarCasos();
+
+        casoActual = casos.get(0);
+
+        investigacion = new Investigacion(casoActual);
     }
 
     // =====================================================
