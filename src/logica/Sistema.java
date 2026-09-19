@@ -18,17 +18,15 @@ public class Sistema {
 
     public Sistema() {
 
-        agente = new Agente("Agente", "NX-001");
+        System.out.println("=================================");
+        System.out.println("       CONFIGURACIÓN DE AGENTE");
+        System.out.println("=================================");
 
-        casos = new ArrayList<>();
+        String nombreAgente = Utilidades.leerTexto(
+        "Ingrese el nombre de su agente: "
+);
 
-        casoDesbloqueado = 1;
-
-        cargarCasos();
-
-        casoActual = casos.get(0);
-
-        investigacion = new Investigacion(casoActual);
+        agente = new Agente(nombreAgente, "NX-001");
     }
 
     // =====================================================
